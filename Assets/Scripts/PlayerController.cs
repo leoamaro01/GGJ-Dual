@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     }
     public void ChangeState(bool newState)
     {
+        state = newState;
         if (newState)
         {
             annaCam.Priority = 0;

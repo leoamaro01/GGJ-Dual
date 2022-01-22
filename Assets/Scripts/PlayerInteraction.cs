@@ -40,7 +40,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             bool canInteract = false;
             Ray camRay = cam.ViewportPointToRay(Vector3.one / 2);
-            if (Physics.Raycast(camRay, out RaycastHit hitInfo, interactionDistance))
+            if (Physics.Raycast(camRay, out RaycastHit hitInfo, interactionDistance, ~0, QueryTriggerInteraction.Collide))
             {
                 interactable = hitInfo.transform.GetComponent<InteractableObject>();
                 if (interactable != null && interactable.IsInteractable)
