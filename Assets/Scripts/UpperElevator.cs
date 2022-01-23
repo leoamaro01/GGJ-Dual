@@ -10,7 +10,8 @@ public class UpperElevator : MonoBehaviour
     float defaultMoveSpeed;
     public Transform playerLifPlaceholder;
     public Animator lowerElevatorDoors;
-    public void GoDown()
+    public Animator upperElevatorDoors;
+    public void StartMoving()
     {
         firstPersonController.transform.SetParent(transform);
         defaultMoveSpeed = firstPersonController.MoveSpeed;
@@ -25,6 +26,14 @@ public class UpperElevator : MonoBehaviour
     {
         daiCamera.Priority = 3;
         shakeCamera.Priority = 0;
+    }
+    public void Returned()
+    {
+        firstPersonController.transform.SetParent(null);
+        firstPersonController.MoveSpeed = defaultMoveSpeed;
+        firstPersonController.SprintSpeed = defaultMoveSpeed;
+
+        upperElevatorDoors.SetTrigger("ChangeState");
     }
     public void PlayerLif()
     {
