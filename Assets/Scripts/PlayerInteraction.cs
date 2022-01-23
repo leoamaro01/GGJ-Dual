@@ -15,7 +15,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private PlayerControls controls;
     private InteractableObject interactable;
-    private void Awake()
+    public void Awake()
     {
         if (controls == null)
         {
@@ -38,22 +38,34 @@ public class PlayerInteraction : MonoBehaviour
     {
         while (true)
         {
-            bool canInteract = false;
             Ray camRay = cam.ViewportPointToRay(Vector3.one / 2);
             if (Physics.Raycast(camRay, out RaycastHit hitInfo, interactionDistance, ~0, QueryTriggerInteraction.Collide))
             {
                 interactable = hitInfo.transform.GetComponent<InteractableObject>();
-                if (interactable != null && interactable.IsInteractable)
+                if (interactable != null)
                 {
-                    canInteract = true;
-                    interactionLabel.text = interactable.interactionText;
+                    if (interactable.IsInteractable)
+                    {
+                        interactionLabel.text = interactable.interactionText;
+                    }
+                    else
+                    {
+                        interactionLabel.text = interactable.alternativeText;
+                        interactable = null;
+                    }
                 }
                 else
+                {
                     interactable = null;
+                    interactionLabel.text = "";
+                }
+            }
+            else
+            {
+                interactable = null;
+                interactionLabel.text = "";
             }
 
-            if (!canInteract)
-                interactionLabel.text = "";
 
             yield return new WaitForSecondsRealtime(SEMI_UPDATE_MS / 1000f);
         }

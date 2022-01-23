@@ -10,6 +10,11 @@ public class PlayerController : MonoBehaviour
     public CinemachineVirtualCamera annaCam;
     public CinemachineVirtualCamera ivanCam;
 
+    public float ivanSpeed;
+    public float annaSpeed;
+
+    public StarterAssets.FirstPersonController mover;
+
     public void Awake()
     {
         ChangeState(state);
@@ -21,11 +26,17 @@ public class PlayerController : MonoBehaviour
         {
             annaCam.Priority = 0;
             ivanCam.Priority = 1;
+
+            mover.MoveSpeed = ivanSpeed;
+            mover.SprintSpeed = ivanSpeed;
         }
         else
         {
             annaCam.Priority = 1;
             ivanCam.Priority = 0;
+
+            mover.MoveSpeed = annaSpeed;
+            mover.SprintSpeed = annaSpeed;
         }
     }
 
