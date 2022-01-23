@@ -35,6 +35,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dai"",
+                    ""type"": ""Button"",
+                    ""id"": ""8595f8c9-06ce-45d9-b7f4-d275c100555f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -59,6 +68,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5fc21912-34c3-4fa2-9719-cce53703317c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dai"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -68,6 +88,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Dai = m_Player.FindAction("Dai", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -128,11 +149,13 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Dai;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @Dai => m_Wrapper.m_Player_Dai;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -145,6 +168,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Dai.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDai;
+                @Dai.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDai;
+                @Dai.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDai;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -152,6 +178,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Dai.started += instance.OnDai;
+                @Dai.performed += instance.OnDai;
+                @Dai.canceled += instance.OnDai;
             }
         }
     }
@@ -159,5 +188,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnInteract(InputAction.CallbackContext context);
+        void OnDai(InputAction.CallbackContext context);
     }
 }

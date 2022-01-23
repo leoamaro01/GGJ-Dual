@@ -11,8 +11,12 @@ public class UpperElevator : MonoBehaviour
     public Transform playerLifPlaceholder;
     public Animator lowerElevatorDoors;
     public Animator upperElevatorDoors;
+    public AudioSource elevatorAudio;
+
     public void StartMoving()
     {
+        elevatorAudio.Stop();
+        elevatorAudio.Play();
         firstPersonController.transform.SetParent(transform);
         defaultMoveSpeed = firstPersonController.MoveSpeed;
         firstPersonController.MoveSpeed = 0;

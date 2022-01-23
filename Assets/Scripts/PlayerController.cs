@@ -9,6 +9,10 @@ public class PlayerController : MonoBehaviour
     public bool state;
     public CinemachineVirtualCamera annaCam;
     public CinemachineVirtualCamera ivanCam;
+    public Animator handAnimator;
+    public Animator hudAnimator;
+    public AudioSource madnessAudioSource;
+    public AudioSource freezeAudioSource;
 
     public float ivanSpeed;
     public float annaSpeed;
@@ -22,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public void ChangeState(bool newState)
     {
         state = newState;
+        hudAnimator.SetBool("Status", newState);
         if (newState)
         {
             annaCam.Priority = 0;
@@ -40,4 +45,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Freeze()
+    {
+        freezeAudioSource.Stop();
+        freezeAudioSource.Play();
+
+        handAnimator.SetTrigger("Freeze");
+    }
+    public void GoMad()
+    {
+        madnessAudioSource.Stop();
+        madnessAudioSource.Play();
+
+        handAnimator.SetTrigger("GoMad");
+    }
+    public void Power()
+    {
+        handAnimator.SetTrigger("Power");
+    }
 }
+

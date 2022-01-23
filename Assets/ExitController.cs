@@ -9,14 +9,30 @@ public class ExitController : MonoBehaviour
     public Collider exitBlocker;
     public Animator exitDoorAnim;
     public GameObject gameOverTrigger;
-    public Cinemachine.CinemachineVirtualCamera gameOverCamera;
     public StarterAssets.FirstPersonController firstPersonController;
+    public GameObject gameOverScreen;
 
+    PlayerControls controls;
+
+    void Awake()
+    {
+        if (controls == null)
+        {
+            controls = new PlayerControls();
+            controls.Enable();
+        }
+
+        controls.Player.Dai.performed += ctx =>
+        {
+            if (over)
+                Application.Quit();
+        };
+    }
     public void FreezePiston()
     {
         frozenPistons++;
 
-        if(frozenPistons == 2)
+        if (frozenPistons == 2)
         {
             pressurePlate.SetActive(false);
             exitDoorAnim.SetBool("IsOpen", true);
@@ -24,10 +40,12 @@ public class ExitController : MonoBehaviour
             gameOverTrigger.SetActive(true);
         }
     }
+    bool over = false;
     public void GameOver()
     {
-        gameOverCamera.Priority = 2;
+        over = true;
         firstPersonController.MoveSpeed = 0;
         firstPersonController.SprintSpeed = 0;
+        gameOverScreen.SetActive(true);
     }
 }
